@@ -1,0 +1,12 @@
+{
+  "CreditScore": 750,
+  "Geography": "France",
+  "Gender": "Male",
+  "Age": 34,
+  "Tenure": 8,
+  "Balance": 0.00,
+  "NumOfProducts": 2,
+  "HasCrCard": 1,
+  "IsActiveMember": 1,
+  "EstimatedSalary": 95000.00
+}

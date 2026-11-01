@@ -1,0 +1,12 @@
+{
+  "CreditScore": 400,
+  "Geography": "Germany",
+  "Gender": "Female",
+  "Age": 58,
+  "Tenure": 1,
+  "Balance": 150000.00,
+  "NumOfProducts": 3,
+  "HasCrCard": 1,
+  "IsActiveMember": 0,
+  "EstimatedSalary": 60000.00
+}
