@@ -106,7 +106,11 @@ In a separate terminal window (ensure you are inside `mlops/` with the `venv` ac
 python app/main.py
 ```
 
-The API automatically loads the latest registered model from the MLflow Model Registry.
+The API automatically loads the latest registered model from the MLflow Model Registry. To choose a model interactively instead:
+
+```bash
+python app/main.py --select
+```
 
 ### Step 5: Test Model Predictions (Interactive API Docs)
 

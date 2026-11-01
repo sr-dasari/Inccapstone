@@ -1,3 +1,4 @@
+import sys
 import mlflow
 import pandas as pd
 from fastapi import FastAPI
@@ -9,8 +10,9 @@ from utils import select_model, engineer_features, align_features
 # Point to the SQLite database
 mlflow.set_tracking_uri("sqlite:///mlflow.db")
 
-# Load model interactive selection at startup
-model, selected_run_id = select_model("churn_experiment")
+# Use --select flag to pick a model interactively; otherwise auto-loads the registered model
+interactive = "--select" in sys.argv
+model, selected_run_id = select_model("churn_experiment", interactive=interactive)
 
 app = FastAPI(title=f"Churn Prediction API (Model: {selected_run_id[:8]})")
 

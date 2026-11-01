@@ -3,25 +3,30 @@ import mlflow
 import mlflow.sklearn
 import pandas as pd
 
-def select_model(experiment_name: str = "churn_experiment"):
-    """Loads the latest registered model, or falls back to interactive selection."""
+def select_model(experiment_name: str = "churn_experiment", interactive: bool = False):
+    """Loads the latest registered model, or falls back to interactive selection.
+
+    Pass interactive=True (or --select on the command line) to always
+    show the model list and pick one manually.
+    """
     client = mlflow.tracking.MlflowClient()
 
-    # Try loading the latest version of the registered model first
-    model_name = "churn_prediction_model"
-    try:
-        versions = client.search_model_versions(f"name='{model_name}'")
-        if versions:
-            latest = max(versions, key=lambda v: int(v.version))
-            run_id = latest.run_id
-            print(f"\nLoading registered model '{model_name}' version {latest.version} (run {run_id[:8]})...")
-            model_uri = f"models:/{model_name}/{latest.version}"
-            loaded_model = mlflow.sklearn.load_model(model_uri)
-            return loaded_model, run_id
-    except Exception:
-        pass
+    # Auto-load the registered model unless interactive mode is requested
+    if not interactive:
+        model_name = "churn_prediction_model"
+        try:
+            versions = client.search_model_versions(f"name='{model_name}'")
+            if versions:
+                latest = max(versions, key=lambda v: int(v.version))
+                run_id = latest.run_id
+                print(f"\nLoading registered model '{model_name}' version {latest.version} (run {run_id[:8]})...")
+                model_uri = f"models:/{model_name}/{latest.version}"
+                loaded_model = mlflow.sklearn.load_model(model_uri)
+                return loaded_model, run_id
+        except Exception:
+            pass
 
-    # Fall back to interactive selection if no registered model exists
+    # Interactive selection
     experiment = client.get_experiment_by_name(experiment_name)
     if not experiment:
         print(f"Experiment '{experiment_name}' not found in mlflow.db.")
